@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" sizes="favicon-32x32" href="/assets/images/favicon_io/favicon-32x32.png">
+    <link rel="stylesheet" href="/assets/bootstrap-5.3.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" \ />
+    <link rel="stylesheet" href="/assets/custom.css">
+    <script src="/assets/jquery/jquery-3.7.1.min.js"></script>
+
+    <title>Shoe Ecommerce</title>
+</head>
+
+<body>
+<header class="py-2 border-bottom">
+    <div class="container d-flex align-items-center" style="grid-template-columns: 1fr 2fr;" bis_skin_checked="1">
+        <div class="d-flex" style="margin-right: 30px" bis_skin_checked="1">
+            <a href="http://127.0.0.1:5500">
+                <i class="fa-solid fa-cart-plus fa-lg"></i>
+                Shoe Ecommerce
+            </a>
+        </div>
+
+        <div class="d-flex align-items-center flex-grow-1 justify-content-between" bis_skin_checked="1">
+            <form class="w-50 me-3 d-flex align-items-center" role="search">
+                <input type="search" class="form-control" placeholder="Search..." id="searchByTitle"
+                       onkeyup="sortProducts()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form>
+            <div class="d-flex justify-content-between" style="width: 6%;" bis_skin_checked="1">
+                <a href="http://127.0.0.1:5500/cart.html" class="cartBtn">
+                    <i class="fa-solid fa-cart-plus fa-lg"></i>
+                    <span class="position-absolute top-0 start-100 bg-danger translate-middle badge border border-light rounded-circle">7</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-user fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-2 mt-1">
+            <!-- ===================CATEGORY============== -->
+            <div class="nav-option">
+                <h5>Category</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="categorySort" id="allCategory"
+                           value="allCategory" onchange="sortProducts()" checked>
+                    <label class="form-check-label" for="allCategory">
+                        All
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="categorySort" id="sneakers" value="sneakers"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="sneakers">
+                        Sneakers
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="categorySort" id="flats" value="flats"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="flats">
+                        Flats
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="categorySort" id="sandals" value="sandals"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="sandals">
+                        Sandals
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="categorySort" id="heels" value="heels"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="heels">
+                        Heels
+                    </label>
+                </div>
+            </div>
+
+            <!-- ===================PRICE============== -->
+            <div class="nav-option">
+                <h5>Price</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="priceSort" id="allPrice" value="allPrice"
+                           onchange="sortProducts()" checked>
+                    <label class="form-check-label" for="allPrice">
+                        All
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="priceSort" id="price0to50" value="price0to50"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="price0to50">
+                        $0-$50
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="priceSort" id="price50to100"
+                           value="price50to100" onchange="sortProducts()">
+                    <label class="form-check-label" for="price50to100">
+                        $50-$100
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="priceSort" id="price100to150"
+                           value="price100to150" onchange="sortProducts()">
+                    <label class="form-check-label" for="price100to150">
+                        $100-$150
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="priceSort" id="priceOver150"
+                           value="priceOver150" onchange="sortProducts()">
+                    <label class="form-check-label" for="priceOver150">
+                        Over $150
+                    </label>
+                </div>
+            </div>
+
+
+            <!-- ===================COLOR============== -->
+            <div class="nav-option">
+                <h5>Color</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="allColor" value="allColor"
+                           onchange="sortProducts()" checked>
+                    <label class="form-check-label" for="allColor">
+                        All
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="blackColor" value="black"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="blackColor">
+                        Black
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="blueColor" value="blue"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="blueColor">
+                        Blue
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="redColor" value="red"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="redColor">
+                        Red
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="greenColor" value="green"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="greenColor">
+                        Green
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="colorSort" id="whiteColor" value="white"
+                           onchange="sortProducts()">
+                    <label class="form-check-label" for="whiteColor">
+                        White
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================PRODUCTS============================ -->
+        <div class="col-lg-10 mt-1">
+            <h5>Recommended</h5>
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-secondary" onclick="sortByCompany('all', event)">All
+                    Products</button>
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="sortByCompany('Nike', event)">Nike</button>
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="sortByCompany('Adidas', event)">Adidas</button>
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="sortByCompany('Puma', event)">Puma</button>
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="sortByCompany('Vans', event)">Vans</button>
+            </div>
+
+            <h5 class="mt-2">Products</h5>
+            <div class="row row-cols-1 row-cols-md-4 g-4" id="showProduct">
+                <!-- LIST OF PRODUCT -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/style.js"></script>
+
+</body>
+
+</html>

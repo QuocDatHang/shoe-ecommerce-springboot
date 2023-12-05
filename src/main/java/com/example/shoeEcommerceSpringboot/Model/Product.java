@@ -21,7 +21,7 @@ public class Product {
     private String title;
     private String img;
     @JoinColumn(name = "company_id")
-    @ManyToOne
+    @ManyToOne()
     private Company company;
     @JoinColumn(name = "category_id")
     @ManyToOne

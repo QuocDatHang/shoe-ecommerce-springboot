@@ -1,6 +1,189 @@
 
-const renderProducts = (listProducts) => {
-    listProducts.forEach(item => {
+const sortProducts = async () => {
+    $('.renderProduct').remove();
+    await $('.btn').on('click', () => {
+        $('.btn').removeClass('active');
+        $('.btn:focus').addClass('active');
+    })
+
+    let companyName = $('.btn.active').val();
+    let categoryName = $('input[name="categorySort"]:checked').val();
+    let colorName = $('input[name="colorSort"]:checked').val();
+    let priceRange = $('input[name="priceSort"]:checked').val();
+    let search = $('#searchByTitle').val();
+    let minPrice;
+    let maxPrice;
+    if (priceRange === 'allPrice') {
+        minPrice = 0;
+        maxPrice = 0;
+    } else {
+        priceRange = priceRange.split(",");
+        minPrice = parseInt(priceRange[0]);
+        maxPrice = parseInt(priceRange[1]);
+    }
+
+    let filter = {
+        search,
+        companyName,
+        categoryName,
+        colorName,
+        minPrice,
+        maxPrice
+    }
+    console.log(filter)
+    const response = await fetch('api/products', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(filter)
+    });
+    const result = await response.json();
+    renderProducts(result);
+}
+
+function increment() {
+    var currentQty = +$('#productQty').text();
+    var newQty = currentQty + 1;
+    $('#productQty').text(newQty);
+}
+
+function decrement() {
+    var currentQty = +$('#productQty').text();
+    if (currentQty == 1) {
+        return;
+    }
+    var newQty = currentQty - 1;
+    $('#productQty').text(newQty);
+}
+
+async function getAllCompanies() {
+    const response = await fetch('api/companies');
+    const result = await response.json();
+    renderCompanies(result);
+}
+
+function renderCompanies(companies) {
+    let str =  `
+            <button type="button" class="btn btn-outline-secondary active" value="allCompany"
+            onclick="sortProducts()">All Products</button>
+            `
+    $('.btnCompany').append(str);
+    companies.forEach(company => {
+        let str =
+            `
+            <button type="button" class="btn btn-outline-secondary" value="${company.nameCompany}" onclick="sortProducts()">
+                ${company.nameCompany}
+            </button>
+            `
+        $('.btnCompany').append(str);
+    })
+}
+
+async function getAllCategories() {
+    const response = await fetch("api/categories");
+    const result = await response.json()
+    renderCategories(result);
+}
+
+function renderCategories(categories) {
+    let str =
+        `
+        <h5>Category</h5>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="categorySort" id="allCategory"
+                   value="allCategory" onchange="sortProducts()" checked>
+            <label class="form-check-label" for="allCategory">All</label>
+         </div>
+        `
+    $('.showCategory').append(str);
+    categories.forEach(category => {
+        let str =
+            `
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categorySort" id="category-${category.id}" value="${category.nameCategory}"
+                       onchange="sortProducts()">
+                <label class="form-check-label" for="category-${category.id}">
+                    ${category.nameCategory}
+                </label>
+            </div>
+            `
+        $('.showCategory').append(str);
+    })
+}
+
+async function getAllColors() {
+    const response = await fetch("api/colors");
+    const result = await response.json()
+    renderColors(result);
+}
+
+function renderColors(colors) {
+    let str =
+        `
+        <h5>Color</h5>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="colorSort" id="allColor" 
+                value="allColor" onchange="sortProducts()" checked>
+            <label class="form-check-label" for="allColor">All</label>
+        </div>
+        `
+    $('.showColor').append(str);
+    colors.forEach(color => {
+        let str =
+            `
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="colorSort" id="color-${color.id}" value="${color.nameColor}"
+                       onchange="sortProducts()">
+                <label class="form-check-label" for="color-${color.id}">
+                    ${color.nameColor}
+                </label>
+            </div>
+            `
+        $('.showColor').append(str);
+    })
+}
+
+async function getAllPrices() {
+    const response = await fetch("api/prices");
+    const result = await response.json()
+    renderPrices(result);
+}
+
+function renderPrices(prices) {
+    let str =
+        `
+        <h5>Price</h5>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="priceSort" id="allPrice" value="allPrice"
+                   onchange="sortProducts()" checked>
+            <label class="form-check-label" for="allPrice">All</label>
+        </div>
+        `
+    $('.showPrice').append(str);
+    prices.forEach(price => {
+        let str =
+            `
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="priceSort" id="price-${price.id}" 
+                value="${price.value}" onchange="sortProducts()">
+                <label class="form-check-label" for="price-${price.id}">
+                    ${price.namePrice}
+                </label>
+            </div>
+            `
+        $('.showPrice').append(str);
+    })
+}
+
+// async function getAllProducts() {
+//     const response = await fetch("api/products");
+//     const result = await response.json()
+//     renderProducts(result);
+// }
+
+const renderProducts = (products) => {
+    products.forEach(item => {
         strProduct = `
         <div class="col renderProduct">
             <div class="card">
@@ -30,139 +213,18 @@ const renderProducts = (listProducts) => {
     })
 };
 
+$(document).ready(async function () {
+    // sortByCompany('all');
+    let sortedProductsByCompany;
+    let sortedProductsByCategory;
+    let sortedProductsByColor;
+    let sortedProductsByPrice;
+    let sortedProductsByTitle;
 
-async function sortByCompany(company, event) {
-    $('.btn').removeClass('active');
-    $('.btn:focus').addClass('active');
-    sortedProductsByCompany = new Array();
-    const response = await fetch("https://jsonserver-vercel-api.vercel.app/products");
-    const products = await response.json();
-    products.forEach(item => {
-        if (item.company == company) {
-            sortedProductsByCompany.push(item);
-        }
-        if (company == 'all') {
-            sortedProductsByCompany.push(item);
-        }
-    });
-    sortProducts();
-}
-
-const sortProducts = () => {
-    $('.renderProduct').remove();
-
-    sortedProductsByCategory = new Array();
-    const checkedCategory = Array.from($('[name="categorySort"]'));
-    checkedCategory.forEach(radio => {
-        if (radio.checked === true) {
-            sortedProductsByCompany.forEach(item => {
-                if (radio.value == 'allCategory') {
-                    sortedProductsByCategory.push(item);
-                }
-                if (radio.value == 'sneakers' && item.category == 'sneakers') {
-                    sortedProductsByCategory.push(item);
-                }
-                if (radio.value == 'flats' && item.category == 'flats') {
-                    sortedProductsByCategory.push(item);
-                }
-                if (radio.value == 'sandals' && item.category == 'sandals') {
-                    sortedProductsByCategory.push(item);
-                }
-                if (radio.value == 'heels' && item.category == 'heels') {
-                    sortedProductsByCategory.push(item);
-                }
-            })
-        }
-    });
-
-    sortedProductsByColor = new Array();
-    const checkedColor = Array.from($('[name="colorSort"]'));
-    checkedColor.forEach(radio => {
-        if (radio.checked === true) {
-            sortedProductsByCategory.forEach(item => {
-                if (radio.value == 'allColor') {
-                    sortedProductsByColor.push(item);
-                }
-                if (radio.value == 'black' && item.color == 'black') {
-                    sortedProductsByColor.push(item);
-                }
-                if (radio.value == 'blue' && item.color == 'blue') {
-                    sortedProductsByColor.push(item);
-                }
-                if (radio.value == 'red' && item.color == 'red') {
-                    sortedProductsByColor.push(item);
-                }
-                if (radio.value == 'green' && item.color == 'green') {
-                    sortedProductsByColor.push(item);
-                }
-                if (radio.value == 'white' && item.color == 'white') {
-                    sortedProductsByColor.push(item);
-                }
-            })
-        }
-    });
-
-    sortedProductsByPrice = new Array();
-    const checkedPrice = Array.from($('[name="priceSort"]'));
-    checkedPrice.forEach(radio => {
-        if (radio.checked === true) {
-            sortedProductsByColor.forEach(item => {
-                if (radio.value == 'allPrice') {
-                    sortedProductsByPrice.push(item);
-                }
-                if (radio.value == 'price0to50' && item.newPrice >= 0 && item.newPrice < 50) {
-                    sortedProductsByPrice.push(item);
-                }
-                if (radio.value == 'price50to100' && item.newPrice >= 50 && item.newPrice < 100) {
-                    sortedProductsByPrice.push(item);
-                }
-                if (radio.value == 'price100to150' && item.newPrice >= 100 && item.newPrice < 150) {
-                    sortedProductsByPrice.push(item);
-                }
-                if (radio.value == 'priceOver150' && item.newPrice >= 150) {
-                    sortedProductsByPrice.push(item);
-                }
-            })
-        }
-    })
-
-    sortedProductsByTitle = new Array();
-    var searchByTitle = $('#searchByTitle').val();
-    searchByTitle = searchByTitle.toLowerCase();
-    sortedProductsByPrice.forEach(item => {
-        itemTitle = item.title.toLowerCase();
-        if (itemTitle.includes(searchByTitle)) {
-            sortedProductsByTitle.push(item);
-        }
-    })
-
-    renderProducts(sortedProductsByTitle);
-}
-
-function increment() {
-    var currentQty = +$('#productQty').text();
-    var newQty = currentQty + 1;
-    $('#productQty').text(newQty);
-}
-
-function decrement() {
-    var currentQty = +$('#productQty').text();
-    if (currentQty == 1) {
-        return;
-    }
-    var newQty = currentQty - 1;
-    $('#productQty').text(newQty);
-}
-
-
-$(document).ready(function async() {
-    console.log('hi');
-    sortByCompany('all');
-    var sortedProductsByCompany;
-    var sortedProductsByCategory;
-    var sortedProductsByColor;
-    var sortedProductsByPrice;
-    var sortedProductsByTitle;
-
+    await getAllCompanies();
+    await getAllCategories();
+    await getAllColors();
+    await getAllPrices();
     $('.btn:first-child').addClass('active');
+    await sortProducts()
 })

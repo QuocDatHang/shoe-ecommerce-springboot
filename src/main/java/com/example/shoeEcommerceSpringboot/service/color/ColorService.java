@@ -1,8 +1,10 @@
 package com.example.shoeEcommerceSpringboot.service.color;
 
 import com.example.shoeEcommerceSpringboot.Model.Color;
+import com.example.shoeEcommerceSpringboot.repository.IColorRepository;
 import com.example.shoeEcommerceSpringboot.service.IGeneralService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +12,12 @@ import java.util.List;
 @Service
 @Transactional
 public class ColorService implements IGeneralService<Color, Long> {
+    @Autowired
+    private IColorRepository colorRepository;
+
     @Override
     public List<Color> findAll() {
-        return null;
+        return colorRepository.findAll();
     }
 
     @Override

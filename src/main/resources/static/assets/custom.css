@@ -77,14 +77,14 @@ a {
     margin-right: 10px;
 }
 
-.d-flex.align-items-center {
-    position: relative;
-}
+/*.d-flex.align-items-center {*/
+/*    position: relative;*/
+/*}*/
 
-.fa-solid.fa-cart-arrow-down.fa-lg {
-    position: absolute;
-    right: 0;
-}
+/*.fa-solid.fa-cart-arrow-down.fa-lg {*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*}*/
 
 .card-img-top {
     height: 100px;
@@ -183,4 +183,8 @@ td {
     width: 100%;
     height: 60px;
     border-radius: 0;
+}
+
+.fa-circle-xmark:hover {
+    cursor: pointer;
 }

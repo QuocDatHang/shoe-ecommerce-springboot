@@ -32,7 +32,6 @@
             <div class="d-flex justify-content-between" style="width: 6%;" bis_skin_checked="1">
                 <a href="/carts" class="cartBtn">
                     <i class="fa-solid fa-cart-plus fa-lg"></i>
-                    <span class="position-absolute top-0 start-100 bg-danger translate-middle badge border border-light rounded-circle">7</span>
                 </a>
                 <a href="#">
                     <i class="fa-solid fa-user fa-lg"></i>
@@ -45,7 +44,7 @@
 <div class="container">
     <h4 class="mt-2">Cart Detail</h4>
     <div class="row row-cols-2">
-        <div class="col-8">
+        <div class="col-8 mb-5">
             <table class="table">
                 <thead>
                 <tr>
@@ -56,22 +55,8 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><img src="https://m.media-amazon.com/images/I/61TM6Q9dvxL._AC_UX575_.jpg" alt="error">
-                    </td>
-                    <td style="width: 13rem; text-align: left;">Nike max max max max max max max air</td>
-                    <td>$100</td>
-                    <td>
-                        <div class="quantityBtn">
-                            <span onclick="decrement()">-</span>
-                            <span id="productQty">1</span>
-                            <span onclick="increment()">+</span>
-                        </div>
-                    </td>
-                    <td>$100</td>
-                    <td><i class="fa-solid fa-circle-xmark fa-2xl"></i></td>
-                </tr>
+                <tbody id="showCartDetail">
+                    <!-- CART DETAIL  -->
                 </tbody>
             </table>
             <a href="/products">
@@ -85,7 +70,7 @@
                 <div class="d-flex flex-column mx-3">
                     <div class="d-flex flex-row justify-content-between py-2">
                         <div>Subtotal</div>
-                        <div>$100</div>
+                        <div id="subtotal"></div>
                     </div>
                     <div class="d-flex flex-row justify-content-between py-2">
                         <div>Shipping</div>
@@ -94,7 +79,7 @@
                 </div>
                 <div class="d-flex flex-row justify-content-between mx-3 py-2">
                     <div>Total</div>
-                    <div>$100</div>
+                    <div id="total"></div>
                 </div>
             </div>
             <form class="mt-1">
@@ -123,6 +108,6 @@
     </div>
 </div>
 
-<script src="/assets/style.js"></script>
+<script src="/assets/cart.js"></script>
 
 </body>

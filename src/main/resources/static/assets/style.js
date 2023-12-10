@@ -1,12 +1,9 @@
+let pageCurrent = 0;
 
 const sortProducts = async () => {
     $('.renderProduct').remove();
-    await $('.btn').on('click', () => {
-        $('.btn').removeClass('active');
-        $('.btn:focus').addClass('active');
-    })
 
-    let companyName = $('.btn.active').val();
+    let companyName = $('input[name="companySort"]:checked').val();
     let categoryName = $('input[name="categorySort"]:checked').val();
     let colorName = $('input[name="colorSort"]:checked').val();
     let priceRange = $('input[name="priceSort"]:checked').val();
@@ -30,7 +27,12 @@ const sortProducts = async () => {
         minPrice,
         maxPrice
     }
-    console.log(filter)
+
+    let pageable = {
+        sort: "newPrice, ASC",
+        page: pageCurrent,
+        size: 5
+    }
     const response = await fetch('api/products', {
         method: 'POST',
         headers: {
@@ -39,22 +41,35 @@ const sortProducts = async () => {
         body: JSON.stringify(filter)
     });
     const result = await response.json();
-    renderProducts(result);
+    const products = result.content;
+    renderProducts(products);
+
+    $('.btnAddToCart').on('click',  async function () {
+        const productId = $(this).data("id");
+        const cartDetailReqDTO = {
+            productId
+        }
+        const response = await fetch("api/carts/add-to-cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(cartDetailReqDTO)
+        });
+        if (response.ok) {
+            alert("Add to cart successfully!")
+            const result = await response.json();
+            const cartDetailQuantity = result.cartDetailResDTOList.length;
+            renderCartDetailQuantity(cartDetailQuantity);
+        }
+    })
 }
 
-function increment() {
-    var currentQty = +$('#productQty').text();
-    var newQty = currentQty + 1;
-    $('#productQty').text(newQty);
-}
-
-function decrement() {
-    var currentQty = +$('#productQty').text();
-    if (currentQty == 1) {
-        return;
-    }
-    var newQty = currentQty - 1;
-    $('#productQty').text(newQty);
+function renderCartDetailQuantity(cartDetailQuantity) {
+    $('.cartDetailQuantity').remove();
+    let str = `<span class="position-absolute top-0 start-100 bg-danger translate-middle badge 
+                        border border-light rounded-circle cartDetailQuantity">${cartDetailQuantity}</span>`
+    $('.cartBtn').append(str);
 }
 
 async function getAllCompanies() {
@@ -65,18 +80,19 @@ async function getAllCompanies() {
 
 function renderCompanies(companies) {
     let str =  `
-            <button type="button" class="btn btn-outline-secondary active" value="allCompany"
-            onclick="sortProducts()">All Products</button>
+                <input type="radio" class="btn-check brand" onclick="sortProducts()" name="companySort" id="allCompany" 
+                autocomplete="off" value="allCompany" checked>
+                <label class="btn btn-outline-secondary" for="allCompany">All Products</label>
             `
-    $('.btnCompany').append(str);
+    $('#btnCompany').append(str);
     companies.forEach(company => {
         let str =
             `
-            <button type="button" class="btn btn-outline-secondary" value="${company.nameCompany}" onclick="sortProducts()">
-                ${company.nameCompany}
-            </button>
+            <input type="radio" class="btn-check brand" onclick="sortProducts()" name="companySort" id="company-${company.id}" 
+            autocomplete="off" value="${company.nameCompany}">
+            <label class="btn btn-outline-secondary" for="company-${company.id}"> ${company.nameCompany}</label>
             `
-        $('.btnCompany').append(str);
+        $('#btnCompany').append(str);
     })
 }
 
@@ -101,8 +117,8 @@ function renderCategories(categories) {
         let str =
             `
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categorySort" id="category-${category.id}" value="${category.nameCategory}"
-                       onchange="sortProducts()">
+                <input class="form-check-input" type="radio" name="categorySort" id="category-${category.id}" 
+                value="${category.nameCategory}" onchange="sortProducts()">
                 <label class="form-check-label" for="category-${category.id}">
                     ${category.nameCategory}
                 </label>
@@ -176,12 +192,6 @@ function renderPrices(prices) {
     })
 }
 
-// async function getAllProducts() {
-//     const response = await fetch("api/products");
-//     const result = await response.json()
-//     renderProducts(result);
-// }
-
 const renderProducts = (products) => {
     products.forEach(item => {
         strProduct = `
@@ -200,10 +210,14 @@ const renderProducts = (products) => {
                         </div>
                         <div class="cols-2">(${item.reviews} viewers)</div>
                     </div>
-                    <div class="d-flex align-items-center mt-2">
-                        <span class="oldPrice">$${item.prevPrice}</span>
-                        <span>$${item.newPrice}</span>
-                        <i class="fa-solid fa-cart-arrow-down fa-lg"></i>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <div class="d-flex">
+                            <div class="oldPrice">$${item.prevPrice}</div>
+                            <div>$${item.newPrice}</div>
+                        </div>
+                        <div class="btnAddToCart" data-id="${item.id}">
+                            <i class="fa-solid fa-cart-arrow-down fa-lg"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,18 +227,22 @@ const renderProducts = (products) => {
     })
 };
 
-$(document).ready(async function () {
-    // sortByCompany('all');
-    let sortedProductsByCompany;
-    let sortedProductsByCategory;
-    let sortedProductsByColor;
-    let sortedProductsByPrice;
-    let sortedProductsByTitle;
+$('.cartBtn').on('click', async () => {
+    window.location.href = "/carts";
+})
 
+async function getAllCartDetail() {
+    const response = await fetch("api/carts")
+    const result = await response.json();
+    const cartDetailQuantity = result.cartDetailResDTOList.length;
+    renderCartDetailQuantity(cartDetailQuantity);
+}
+
+$(document).ready(async function () {
     await getAllCompanies();
     await getAllCategories();
     await getAllColors();
     await getAllPrices();
-    $('.btn:first-child').addClass('active');
     await sortProducts()
+    await getAllCartDetail();
 })

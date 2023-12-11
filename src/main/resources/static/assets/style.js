@@ -44,7 +44,7 @@ const sortProducts = async () => {
         minPrice,
         maxPrice,
         page: pageCurrent,
-        size: 7,
+        size: 30,
         sortField: "title",
         direction: "DESC"
     }

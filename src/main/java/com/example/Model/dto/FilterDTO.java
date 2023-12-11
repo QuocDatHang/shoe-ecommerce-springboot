@@ -19,6 +19,10 @@ public class FilterDTO {
     private String colorName;
     private Long minPrice;
     private Long maxPrice;
+    private Integer page;
+    private Integer size;
+    private String sortField;
+    private String direction;
 
     public Filter toFilter(FilterDTO filterDTO) {
         return new Filter().setSearch(filterDTO.getSearch())

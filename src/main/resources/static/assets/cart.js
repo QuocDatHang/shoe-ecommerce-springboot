@@ -1,3 +1,20 @@
+toastr.options = {
+    "closeButton": true,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "1500",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
 function renderCartDetail(listCartDetail) {
     listCartDetail.forEach(item => {
         let totalAmountProduct = +(item.amount) * +(item.quantity);
@@ -75,31 +92,45 @@ async function decrement(productId) {
     $('#subtotal, #total').text('$' + result.totalAmount)
 }
 
-async function deleteCartDetail(productId) {
-    const confirmed = confirm("Are you sure to remove this cart item?");
-    if (confirmed) {
-        const cartDetailReqDTO = {
-            productId
+function deleteCartDetail(productId) {
+    Swal.fire({
+        title: "Are you sure to remove this cart item?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const cartDetailReqDTO = {
+                productId
+            }
+            const response = await fetch("api/carts/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cartDetailReqDTO)
+            });
+            if (response.ok) {
+                const result = await response.json();
+                let listCartDetail = result.cartDetailResDTOList;
+                $('.renderCartDetail').remove();
+                renderCartDetail(listCartDetail);
+                renderCartDetailQuantity(listCartDetail.length);
+                $('#subtotal, #total').text('$' + result.totalAmount)
+            }
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your cart item has been deleted.",
+                icon: "success"
+            });
         }
-        const response = await fetch("api/carts/delete", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(cartDetailReqDTO)
-        });
-        if (response.ok) {
-            alert("Delete product successfully!")
-            const result = await response.json();
-            let listCartDetail = result.cartDetailResDTOList;
-            $('.renderCartDetail').remove();
-            renderCartDetail(listCartDetail);
-            renderCartDetailQuantity(listCartDetail.length);
-            $('#subtotal, #total').text('$' + result.totalAmount)
-        }
-    }
+    });
 }
 
 $(document).ready(async function () {
     await getAllCartDetail();
+
 })

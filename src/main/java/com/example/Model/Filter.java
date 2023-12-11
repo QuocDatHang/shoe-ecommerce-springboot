@@ -20,4 +20,5 @@ public class Filter {
     private String colorName;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+
 }

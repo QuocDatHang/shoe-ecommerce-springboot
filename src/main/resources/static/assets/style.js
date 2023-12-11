@@ -1,3 +1,20 @@
+toastr.options = {
+    "closeButton": true,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "1500",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
 let pageCurrent = 0;
 
 const sortProducts = async () => {
@@ -25,14 +42,13 @@ const sortProducts = async () => {
         categoryName,
         colorName,
         minPrice,
-        maxPrice
+        maxPrice,
+        page: pageCurrent,
+        size: 7,
+        sortField: "title",
+        direction: "DESC"
     }
 
-    let pageable = {
-        sort: "newPrice, ASC",
-        page: pageCurrent,
-        size: 5
-    }
     const response = await fetch('api/products', {
         method: 'POST',
         headers: {
@@ -57,7 +73,7 @@ const sortProducts = async () => {
             body: JSON.stringify(cartDetailReqDTO)
         });
         if (response.ok) {
-            alert("Add to cart successfully!")
+            toastr.success("Add to cart successfully!");
             const result = await response.json();
             const cartDetailQuantity = result.cartDetailResDTOList.length;
             renderCartDetailQuantity(cartDetailQuantity);
@@ -237,6 +253,7 @@ async function getAllCartDetail() {
     const cartDetailQuantity = result.cartDetailResDTOList.length;
     renderCartDetailQuantity(cartDetailQuantity);
 }
+
 
 $(document).ready(async function () {
     await getAllCompanies();

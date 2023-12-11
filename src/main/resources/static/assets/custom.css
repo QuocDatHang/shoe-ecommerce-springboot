@@ -185,6 +185,7 @@ td {
     border-radius: 0;
 }
 
-.fa-circle-xmark:hover {
+.fa-circle-xmark:hover, .btnAddToCart:hover {
     cursor: pointer;
 }
+

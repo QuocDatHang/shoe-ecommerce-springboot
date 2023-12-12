@@ -243,10 +243,6 @@ const renderProducts = (products) => {
     })
 };
 
-$('.cartBtn').on('click', async () => {
-    window.location.href = "/carts";
-})
-
 async function getAllCartDetail() {
     const response = await fetch("api/carts")
     const result = await response.json();

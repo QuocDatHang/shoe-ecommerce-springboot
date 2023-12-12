@@ -1,5 +1,6 @@
 package com.example.Model;
 
+import com.example.Model.dto.OrderDetailResDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,4 +27,16 @@ public class OrderDetail {
     private Integer quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;
+    @ManyToOne
+    private Product product;
+
+    public OrderDetailResDTO toOrderDetailResDTO() {
+        return new OrderDetailResDTO()
+                .setImg(img)
+                .setTitle(title)
+                .setQuantity(quantity)
+                .setPrice(price)
+                .setTotalPrice(totalPrice);
+    }
 }
+

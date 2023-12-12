@@ -15,4 +15,9 @@ public class HomeController {
     public String cartPage() {
         return "cart";
     }
+
+    @GetMapping("/orders")
+    public String orderPage() {
+        return "order";
+    }
 }

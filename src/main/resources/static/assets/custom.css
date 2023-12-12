@@ -189,3 +189,60 @@ td {
     cursor: pointer;
 }
 
+.tbOrder th {
+    background-color: #2879ee;
+    color: #FFFFFF;
+}
+
+.tbOrder span {
+    background-color: #7c7c7c;
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.modal-body-item {
+    border-bottom: 0.5px solid #dee2e6;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btnDetail:hover {
+    color: #0f5132;
+    cursor: grab;
+}
+
+.info div:last-child {
+    font-weight: 700;
+}
+
+.modal-order-detail .modal-body {
+    padding-top: 5px;
+}
+
+.modal-body-item tr {
+    font-size: 13px;
+}
+
+.modal-body-item tr td:nth-child(2) {
+    text-align: left;
+}
+
+.modal-body-item img {
+    height: 75px;
+}
+
+.modal-body-item td {
+    padding: 0;
+}
+
+.modal-body-item div {
+    font-size: 13px;
+    margin: 2px;
+}
+
+.modal-body-item tr td:first-child {
+    width: 8rem;
+}

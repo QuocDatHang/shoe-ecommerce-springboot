@@ -46,7 +46,6 @@ function renderCartDetailQuantity(cartDetailQuantity) {
     $('.cartBtn').append(str);
 }
 
-
 async function getAllCartDetail() {
     const response = await fetch("api/carts")
     const result = await response.json();

@@ -44,6 +44,10 @@ public class CartDetailService implements IGeneralService<CartDetail, Long> {
         return cartDetailRepository.findByCartAndProduct(cart, product);
     }
 
+    public List<CartDetail> findAllByCart(Cart cart) {
+        return cartDetailRepository.findAllByCart(cart);
+    }
+
     @Override
     public void update(CartDetail cartDetail) {
 
@@ -165,6 +169,11 @@ public class CartDetailService implements IGeneralService<CartDetail, Long> {
         cartResDTO.setTotalAmount(totalAmount);
         cartResDTO.setCartDetailResDTOList(cartDetailResDTOList);
         return cartResDTO;
+    }
+
+    public void delete(Cart cart) {
+        List<CartDetail> cartDetailList = findAllByCart(cart);
+        cartDetailRepository.deleteAll(cartDetailList);
     }
 
     @Override

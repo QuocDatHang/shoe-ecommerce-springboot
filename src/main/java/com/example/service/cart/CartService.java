@@ -17,6 +17,7 @@ public class CartService implements IGeneralService<Cart, Long> {
 
     @Autowired
     private ICartRepository cartRepository;
+
     @Override
     public List<Cart> findAll() {
         return null;
@@ -41,8 +42,9 @@ public class CartService implements IGeneralService<Cart, Long> {
         cartRepository.save(cart);
     }
 
-    public void createCartDetail() {
 
+    public void delete(Cart cart) {
+        cartRepository.delete(cart);
     }
 
     @Override

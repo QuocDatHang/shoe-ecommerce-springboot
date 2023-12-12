@@ -17,14 +17,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IOrderRepository extends JpaRepository<Order, Long> {
-    @Query("SELECT new com.example.Model.dto.OrderResDTO " +
-            "o.subtotal," +
-            "o.shipping," +
-            "o.totalAmount," +
-            "o.status," +
-            "o.orderDate," +
-            "o.customer," +
-            "o.orderDetailList" +
-            "FROM Order AS o")
-    List<OrderResDTO> findAllByCustomer(Customer customer);
+//    @Query("SELECT new com.example.Model.dto.OrderResDTO( " +
+//            "o.subtotal," +
+//            "o.shipping," +
+//            "o.totalAmount," +
+//            "o.status," +
+//            "o.orderDate," +
+//            "o.customer," +
+//            "o.orderDetailList )" +
+//            "FROM Order AS o WHERE o.customer = :customer")
+//    List<OrderResDTO> findAllByCustomer(Customer customer);
+
+    List<Order> findByCustomer(Customer customer);
 }

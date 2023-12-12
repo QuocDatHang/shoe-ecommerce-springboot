@@ -74,7 +74,7 @@ public class CartAPI {
         return new ResponseEntity<>(cartResDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete-cart-detail")
     public ResponseEntity<?> deleteCartDetail(@RequestBody CartDetailReqDTO cartDetailReqDTO) {
         Customer customer = customerService.findById(1L).orElseThrow(() -> new RuntimeException("Cannot found customer"));
         Optional<Cart> cartOptional = cartService.findByCustomer(customer);
@@ -89,18 +89,19 @@ public class CartAPI {
         return new ResponseEntity<>(cartResDTO, HttpStatus.OK);
     }
 
-//    @GetMapping("/cart-detail-quantity")
-//    public ResponseEntity<?> cartDetailQuantity() {
-//        Customer customer = customerService.findById(1L).orElseThrow(() -> new RuntimeException("Cannot found customer"));
-//        Optional<Cart> cartOptional = cartService.findByCustomer(customer);
-//
-//        CartResDTO cartResDTO;
-//        if (cartOptional.isEmpty()) {
-//            throw new RuntimeException("You dont have cart");
-//        }
-//        else {
-//            cartResDTO = cartDetailService.delete(cartOptional.get());
-//        }
-//        return new ResponseEntity<>(cartResDTO, HttpStatus.OK);
-//    }
+    @GetMapping("/delete-cart")
+    public ResponseEntity<?> deleteCart() {
+        Customer customer = customerService.findById(1L).orElseThrow(() -> new RuntimeException("Cannot found customer"));
+        Optional<Cart> cartOptional = cartService.findByCustomer(customer);
+
+        if (cartOptional.isEmpty()) {
+            throw new RuntimeException("You dont have cart");
+        }
+        else {
+            cartDetailService.delete(cartOptional.get());
+            cartService.delete(cartOptional.get());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

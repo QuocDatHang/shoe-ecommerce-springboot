@@ -47,12 +47,15 @@ function renderCartDetailQuantity(cartDetailQuantity) {
 }
 
 async function getAllCartDetail() {
+    $('.renderCartDetail').remove();
+    $('#subtotal, #total').text('$0');
+    $('.cartDetailQuantity').remove();
     const response = await fetch("api/carts")
     const result = await response.json();
     const listCartDetail = result.cartDetailResDTOList;
-    renderCartDetail(listCartDetail)
-    renderCartDetailQuantity(listCartDetail.length)
-    $('#subtotal, #total').text('$' + result.totalAmount)
+    renderCartDetail(listCartDetail);
+    renderCartDetailQuantity(listCartDetail.length);
+    $('#subtotal, #total').text('$' + result.totalAmount);
 }
 
 async function increment(productId) {
@@ -105,7 +108,7 @@ function deleteCartDetail(productId) {
             const cartDetailReqDTO = {
                 productId
             }
-            const response = await fetch("api/carts/delete", {
+            const response = await fetch("api/carts/delete-cart-detail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -128,6 +131,46 @@ function deleteCartDetail(productId) {
         }
     });
 }
+
+$('#checkout').on('click', async () => {
+    Swal.fire({
+        title: "CONFIRM CHECKOUT",
+        text: "You won't be able to revert this!",
+        icon: "result",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirm"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const response = await fetch("api/orders/checkout")
+            if (response.ok) {
+                const res = await fetch("api/carts/delete-cart")
+                if (res.ok) {
+                    Swal.fire({
+                        title: "Checkout successfully!",
+                        text: "",
+                        icon: "success"
+                    });
+                    await getAllCartDetail();
+                } else {
+                    Swal.fire({
+                        title: "Delete cart failed!",
+                        text: "",
+                        icon: "error"
+                    });
+                }
+            } else {
+                Swal.fire({
+                    title: "Checkout failed!",
+                    text: "",
+                    icon: "error"
+                });
+            }
+        }
+    });
+
+})
 
 $(document).ready(async function () {
     await getAllCartDetail();

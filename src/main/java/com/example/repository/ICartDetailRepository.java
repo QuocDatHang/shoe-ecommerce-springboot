@@ -29,5 +29,7 @@ public interface ICartDetailRepository extends JpaRepository<CartDetail, Long> {
             ") FROM CartDetail AS cd " +
             "WHERE cd.cart = :cart")
     List<CartDetailResDTO> getAllCartDetailResDTOByCart(@Param("cart") Cart cart);
+
+    List<CartDetail> findAllByCart(Cart cart);
 }
 

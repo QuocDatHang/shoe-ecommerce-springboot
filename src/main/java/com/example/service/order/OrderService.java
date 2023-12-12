@@ -1,6 +1,9 @@
 package com.example.service.order;
 
+import com.example.Model.Cart;
+import com.example.Model.Customer;
 import com.example.Model.Order;
+import com.example.Model.Status;
 import com.example.Model.dto.OrderResDTO;
 import com.example.repository.IOrderRepository;
 import com.example.service.IGeneralService;
@@ -22,9 +25,10 @@ public class OrderService implements IGeneralService<Order, Long> {
         return orderRepository.findAll();
     }
 
-    public List<OrderResDTO> findByCustomer() {
-        orderRepository
+    public List<Order> findByCustomer(Customer customer) {
+        return orderRepository.findByCustomer(customer);
     }
+
     @Override
     public Optional<Order> findById(Long id) {
         return Optional.empty();
@@ -37,8 +41,10 @@ public class OrderService implements IGeneralService<Order, Long> {
 
     @Override
     public void create(Order order) {
-
+        orderRepository.save(order);
     }
+
+
 
     @Override
     public Boolean delete(Long id) {

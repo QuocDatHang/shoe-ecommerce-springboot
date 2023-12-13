@@ -16,4 +16,9 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+
+    @Override
+    public String toString() {
+        return type;
+    }
 }

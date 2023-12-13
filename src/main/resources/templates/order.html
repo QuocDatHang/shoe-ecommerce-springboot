@@ -36,22 +36,22 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-2 mt-1">
-            <h4>Menu</h4>
+        <div class="col-lg-2 mt-1 navOrder">
+            <h5>Menu</h5>
 
-            <div class="nav-option my-1">
+            <div class="nav-option py-2 orderElement">
                 <i class="fa-solid fa-cart-plus fa-lg"></i>
                 Order List
             </div>
 
-            <div class="nav-option my-1">
-                <i class="fa-solid fa-cart-plus fa-lg"></i>
-                Products
+            <div class="nav-option py-2 productElement">
+                <i class="fa-brands fa-paypal fa-xl"></i>
+                  Products
             </div>
         </div>
 
-        <!-- ======================PRODUCTS============================ -->
-        <div class="col-lg-10 mt-1">
+        <!-- ======================ORDERS============================ -->
+        <div class="col-lg-10 mt-1 orderDetailModal">
             <h5>Order Management</h5>
             <table class="table table-striped table-hover tbOrder">
                 <thead>
@@ -66,97 +66,12 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>Nov 29 2023</td>
-                    <td>3</td>
-                    <td>$233</td>
-                    <td>Free</td>
-                    <td>$555</td>
-                    <td><span>draft</span></td>
-                    <td>Ronaldo</td>
-                    <td>
-                        <a class="btnDetail" data-bs-toggle="modal" data-bs-target="#modalOrderDetail">
-                            <i class="fa-solid fa-list"></i>
-                        </a>
-                    </td>
-                </tr>
+                <tbody id="renderOrder">
+
                 </tbody>
             </table>
 
-            <div class="modal fade" id="modalOrderDetail" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content modal-order-detail">
-                        <div class="modal-header">
-                            <h2 class="modal-title fs-5">Order Details</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
 
-                            <div class="modal-body-item">
-                                <h6>Order Information</h6>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Subtotal</div>
-                                    <div>$600</div>
-                                </div>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Shipping</div>
-                                    <div>Free</div>
-                                </div>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Total</div>
-                                    <div>$600</div>
-                                </div>
-                            </div>
-                            <div class="modal-body-item">
-                                <h6>Customer Information</h6>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Fullname</div>
-                                    <div>Ronaldo</div>
-                                </div>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Email</div>
-                                    <div>ronaldo@gmail.com</div>
-                                </div>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Mobile</div>
-                                    <div>777777777777</div>
-                                </div>
-                                <div class="d-flex justify-content-between info">
-                                    <div>Address</div>
-                                    <div>07 Lisbon, Portugal</div>
-                                </div>
-                            </div>
-                            <div class="modal-body-item">
-                                <h6>Order details</h6>
-                                <table class="table table-striped">
-                                    <tr>
-                                        <td><img src="https://m.media-amazon.com/images/I/71pf7VFs9CL._AC_UX575_.jpg" alt=""></td>
-                                        <td>Vans Unisex Low-Top</td>
-                                        <td>2</td>
-                                        <td>$555</td>
-                                        <td>$555</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="https://m.media-amazon.com/images/I/71pf7VFs9CL._AC_UX575_.jpg" alt=""></td>
-                                        <td>Vans Unisex Low-Top</td>
-                                        <td>1</td>
-                                        <td>$333</td>
-                                        <td>$333</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="https://m.media-amazon.com/images/I/71pf7VFs9CL._AC_UX575_.jpg" alt=""></td>
-                                        <td>Vans Unisex Low-Top</td>
-                                        <td>1</td>
-                                        <td>$333</td>
-                                        <td>$333</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -246,3 +246,19 @@ td {
 .modal-body-item tr td:first-child {
     width: 8rem;
 }
+
+.orderElement, .productElement:hover {
+    cursor: pointer;
+}
+
+.orderElement, .productElement {
+    color: #3D64FB;
+}
+
+.orderElement i, .productElement i {
+    width: 25px;
+}
+
+.navOrder {
+    border-right: none !important;
+}

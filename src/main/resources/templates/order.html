@@ -46,12 +46,12 @@
 
             <div class="nav-option py-2 productElement">
                 <i class="fa-brands fa-paypal fa-xl"></i>
-                  Products
+                Products
             </div>
         </div>
 
         <!-- ======================ORDERS============================ -->
-        <div class="col-lg-10 mt-1 orderDetailModal">
+        <div class="col-lg-10 mt-1 orderDetailModal hide">
             <h5>Order Management</h5>
             <table class="table table-striped table-hover tbOrder">
                 <thead>
@@ -63,15 +63,79 @@
                     <th>Total Amount</th>
                     <th>Status</th>
                     <th>Customer Name</th>
-                    <th>Actions</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody id="renderOrder">
 
                 </tbody>
             </table>
+        </div>
 
+        <div class="col-lg-10 mt-1 productList">
+            <div class="d-flex justify-content-between px-2">
+                <h5>Product List Management</h5>
+                <button class="btn btn-warning">
+                    <i class="fa-solid fa-plus"></i>
+                    Add new product
+                </button>
+            </div>
 
+            <div class="d-flex align-items-center p-2 gap-2">
+                <label for="field">Field</label>
+                <select class="form-select" id="field">
+                    <option>Id</option>
+                    <option>Title</option>
+                    <option>Category</option>
+                    <option>Color</option>
+                    <option>Company</option>
+                </select>
+
+                <label for="order">Order</label>
+                <select class="form-select" id="order">
+                    <option>Ascendant</option>
+                    <option>Descendant</option>
+                </select>
+            </div>
+
+            <table class="table table-striped table-hover tbOrder">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Color</th>
+                    <th>Category</th>
+                    <th>Company</th>
+                    <th>Price</th>
+                    <th>Rate</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="renderProduct">
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="https://m.media-amazon.com/images/I/71oEKkghg-L._AC_UX575_.jpg" alt="error">
+                            <label>Nike Running Shoe</label>
+                        </div>
+                    </td>
+                    <td><span>Green</span></td>
+                    <td>Sneakers</td>
+                    <td>Adidas</td>
+                    <td>
+                        <span>$120</span>
+                        <span>$200</span>
+                    </td>
+                    <td>
+                        <div>4 <i class="fa-solid fa-star fa-xs" style="color: #f4f41a;"></i></div>
+                        <div>123<i class="fa-solid fa-eye"></i></div>
+                    </td>
+                    <td>
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i class="fa-solid fa-trash"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

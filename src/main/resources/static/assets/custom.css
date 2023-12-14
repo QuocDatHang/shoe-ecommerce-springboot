@@ -2,6 +2,10 @@ a {
     text-decoration: none;
 }
 
+.hide {
+    display: none;
+}
+
 .w-50.me-3 {
     border: 0.5px solid rgb(199, 196, 196);
     border-radius: 7px;
@@ -194,7 +198,7 @@ td {
     color: #FFFFFF;
 }
 
-.tbOrder span {
+.tbOrder span, #renderProduct span {
     background-color: #7c7c7c;
     color: #fff;
     padding: 1px 6px;
@@ -261,4 +265,12 @@ td {
 
 .navOrder {
     border-right: none !important;
+}
+
+#field, #order {
+    width: 9rem;
+}
+
+#renderProduct td:first-child {
+    min-width: 25rem;
 }

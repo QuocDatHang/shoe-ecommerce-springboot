@@ -1,5 +1,6 @@
 package com.example.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,20 +22,28 @@ public class Product {
     private Long id;
     private String title;
     private String img;
-    @JoinColumn(name = "company_id")
+
     @ManyToOne()
+    @JoinColumn(name = "company_id")
     private Company company;
+
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    @ManyToOne
     private Category category;
-    @JoinColumn(name = "color_id")
     @ManyToOne
+    @JoinColumn(name = "color_id")
     private Color color;
+
     private Integer reviews;
     private Integer star;
+
     @Column(columnDefinition = "decimal(19,2)")
     private BigDecimal prevPrice;
+
     @Column(columnDefinition = "decimal(19,2)")
     private BigDecimal newPrice;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductImage> images;
 }
